@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    command:
+      - "postgres"
+      - "-c"
+      - "work_mem=200MB"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 4001:80
+    depends_on:
+      - db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@1.com
+      - PGADMIN_DEFAULT_PASSWORD=123
+      
+  dev: &dev
+    build: .
+    depends_on:
+      - db
+      - pgadmin
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    volumes: 
+      - .:/tman_demo
+      - .bundle:/usr/local/bundle
+    ports:
+      - 3000:3000
+
+volumes:
+  pgdata:
+     external: true
