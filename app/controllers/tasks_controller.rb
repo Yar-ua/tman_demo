@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :set_project
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks
@@ -24,11 +25,11 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = @project.tasks.build(task_params)
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Task was successfully created.' }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new }
@@ -62,13 +63,17 @@ class TasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    
+    def set_project
+      @project = Project.find(params[:project_id])
+    end
+
     def set_task
       @task = Task.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :status, :projects_id)
+      params.require(:task).permit(:name, :status)
     end
 end
