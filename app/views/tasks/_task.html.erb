@@ -1,1 +1,14 @@
-<li class="list-group-item"><%= task.name %> || <%= task.status %> || <%= task.deadline %></li>
+<li class="list-group-item">
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <%= task.name %> || <%= task.status %> || <%= task.deadline %>
+      </div>
+      <div class="col-sm-2">
+        <%= link_to 'Edit', edit_project_task_path(project_id: task.project.id, id: task.id) %>
+        <%= link_to 'Destroy', project_task_path(project_id: task.project.id, id: task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+        mark as done
+      </div>
+    </div>
+  </div>
+</li>

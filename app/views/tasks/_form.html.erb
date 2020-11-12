@@ -1,22 +1,11 @@
-<%= form_for @task, url: project_tasks_path(project_id: params[:project_id]), method: :post do |form| %>
-  <% if task.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+<!--% if params[:action] == 'edit' %>-->
+<!--  %= simple_form_for @task, url: project_task_path(project_id: params[:project_id], id: task.id), method: :put do |f| %>-->
+<!--% else %>-->
+  <!--%= simple_form_for @task, url: project_tasks_path(project_id: params[:project_id]), method: :post do |f| %>-->
+<!--% end %>-->
+<%= simple_form_for [@project, @task] do |f| %>
+  <%= f.input :name %>
+  <%= f.input :deadline, as: :datetime, placeholder: Time.now.strftime('%Y-%m-%d %H:%M'), label: 'Filling date', html5: true %>
+  <%= f.submit %>
 
-      <ul>
-        <% task.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
