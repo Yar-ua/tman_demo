@@ -12,7 +12,7 @@
   <body>
     <div class="container-fluid">
       
-      <p id="notice"><%= notice %></p>
+      <%= render partial: 'layouts/flash', flash: flash %>
 
       <%= yield %>
       

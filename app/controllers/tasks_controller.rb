@@ -1,12 +1,9 @@
 class TasksController < ApplicationController
   before_action :set_project
-  before_action :set_task, only: [:done, :show, :edit, :update, :destroy]
+  before_action :set_task, except: [:index, :new]
 
   def index
     @tasks = Task.all
-  end
-
-  def show
   end
 
   def new
@@ -45,11 +42,20 @@ class TasksController < ApplicationController
   def done
     if @task.done!
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Task was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Task was successfully done.' }
         format.json { render :show, status: :ok, location: @task }
       end
     end
   end
+
+  def inprocess
+    if @task.in_process!
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: 'Task was switchet to "in process".' }
+        format.json { render :show, status: :ok, location: @task }
+      end
+    end
+  end  
 
   def destroy
     @task.destroy
@@ -59,17 +65,35 @@ class TasksController < ApplicationController
     end
   end
 
+  def up
+    if @task.up
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: 'Task priority was upped.' }
+        format.json { render :show, status: :ok, location: @task }
+      end
+    end
+  end
+
+  def down
+    if @task.down
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: 'Task was successfully lowed.' }
+        format.json { render :show, status: :ok, location: @task }
+      end
+    end
+  end
+
   private
     
-    def set_project
-      @project = Project.find(params[:project_id])
-    end
+  def set_project
+    @project = Project.find(params[:project_id])
+  end
 
-    def set_task
-      @task = Task.find(params[:id])
-    end
+  def set_task
+    @task = Task.find(params[:id])
+  end
 
-    def task_params
-      params.require(:task).permit(:name, :status, :deadline)
-    end
+  def task_params
+    params.require(:task).permit(:name, :status, :deadline, :priority)
+  end
 end

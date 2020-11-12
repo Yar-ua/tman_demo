@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_201222) do
     t.string "name"
     t.integer "status", default: 0
     t.datetime "deadline"
+    t.integer "priority"
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

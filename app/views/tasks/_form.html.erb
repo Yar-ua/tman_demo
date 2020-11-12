@@ -1,6 +1,7 @@
 <%= simple_form_for [@project, @task] do |f| %>
-  <%= f.input :name %>
-  <%= f.input :deadline, as: :datetime, placeholder: Time.now.strftime('%Y-%m-%d %H:%M'), label: 'Filling date', html5: true %>
+  <%= f.input :name, label: 'Enter your task' %>
+  <%= f.select :priority, Task::PRIORITIES %>
+  <%= f.input :deadline, as: :datetime, label: 'Deadline datetime' %> <!-- , html5: true -->
   <%= f.submit %>
 
 <% end %>
