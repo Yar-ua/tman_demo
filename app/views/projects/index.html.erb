@@ -2,10 +2,19 @@
 
   <h1>Projects</h1>
 
-  <% @projects.each do |project| %>
-    <%= render 'projects/project', project: project %>
-  <% end %> 
+  <%= link_to 'New Project', new_project_path %>
+
+  <div id="projects">
+    <% @projects.each do |project| %>
+      <%= render 'projects/project', project: project %>
+    <% end %>
+  </div>
 
 <br>
 
-<%= link_to 'New Project', new_project_path %>
+<script>
+  console.log('index');
+
+  $('#projects').append('<%= escape_javascript(render 'projects/form') %>');
+
+</script>
