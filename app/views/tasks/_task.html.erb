@@ -5,6 +5,7 @@
         <%= task.name %> || <%= task.status %> || <%= task.deadline %>
       </div>
       <div class="col-sm-2">
+        <%= link_to 'Done', project_task_done_path(project_id: task.project.id, id: task.id), data: { confirm: 'Mark this task as done?' } %>
         <%= link_to 'Edit', edit_project_task_path(project_id: task.project.id, id: task.id) %>
         <%= link_to 'Destroy', project_task_path(project_id: task.project.id, id: task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
         mark as done
