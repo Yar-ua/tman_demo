@@ -17,9 +17,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  ### uncomment this block if you using Docker
   host: db
   username: postgres
   password:
+  ###
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:

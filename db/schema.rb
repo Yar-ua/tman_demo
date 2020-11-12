@@ -24,7 +24,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_201222) do
   create_table "tasks", force: :cascade do |t|
     t.string "name"
     t.integer "status", default: 0
-    t.date "deadline"
+    t.datetime "deadline"
+    t.integer "priority"
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,7 +1,16 @@
-<tr>
-  <td><%= project.name %></td>
-  <td>Tasks: <%= project.tasks.inspect %></td>
-  <td><%= link_to 'Show', project %></td>
-  <td><%= link_to 'Edit', edit_project_path(project) %></td>
-  <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-</tr>
+<div class="card" style="width: 90%;">
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= project.name %>
+      <%= link_to 'Edit', edit_project_path(project) %>
+      <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </h5>
+    <ul class="list-group">
+      <%= link_to 'New Task', new_project_task_path(project_id: project.id) %>
+      <% project.tasks.each do |task| %>
+        <%= render 'tasks/task', task: task %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<br/>
