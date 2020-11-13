@@ -1,19 +1,52 @@
-<li class="list-group-item">
+<li class="list-group-item" id="task_<%= task.id %>">
   <div class="container">
     <div class="row">
       <div class="col-md">
         <%= task.name %> || <%= task.status %> || <%= task.priority %> || <%= task.deadline %>
       </div>
       <div class="col-sm-1">
-        <%= link_to 'Up', project_task_up_path(project_id: task.project.id, id: task.id), method: :put %>        
-        <%= link_to 'Down', project_task_down_path(project_id: task.project.id, id: task.id), method: :put %>        
+        <%= link_to 'Up', project_task_up_path(project_id: task.project.id, id: task.id), method: :put, remote: true %>        
+        <%= link_to 'Down', project_task_down_path(project_id: task.project.id, id: task.id), method: :put, remote: true %>        
       </div>
       <div class="col-sm-2">
-        <%= link_to 'Done', project_task_done_path(project_id: task.project.id, id: task.id), method: :put, data: { confirm: 'Mark this task as done?' } %>
-        <%= link_to 'UnDone', project_task_inprocess_path(project_id: task.project.id, id: task.id), method: :put, data: { confirm: 'Mark this task as in_process?' } %> |
-        <%= link_to 'Edit', edit_project_task_path(project_id: task.project.id, id: task.id) %>
-        <%= link_to 'Destroy', project_task_path(project_id: task.project.id, id: task.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editTask_<%= task.id %>">
+          Edit
+        </button>
+        <%= link_to 'Destroy', project_task_path(project_id: task.project.id, id: task.id), method: :delete, 
+                    remote: true, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm"  %>
+        <%= link_to 'Done', project_task_done_path(project_id: task.project.id, id: task.id), 
+                    method: :put, remote: true, data: { confirm: 'Mark this task as done?' } %> | 
+        <%= link_to 'UnDone', project_task_inprocess_path(project_id: task.project.id, id: task.id), 
+                    method: :put, remote: true, data: { confirm: 'Mark this task as in_process?' } %> 
       </div>
     </div>
   </div>
 </li>
+
+
+
+<!-- Modal form -->
+<div class="modal fade" id="editTask_<%= task.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= simple_form_for task, url: project_task_path(project_id: task.project_id, id: task.id), method: :put, remote: true do |f| %>
+        <div class="modal-body">
+          <%= f.input :name, label: 'Enter your task', input_html: { minlength: 1 }, error: "Project name must be present" %>
+          <%= f.select :priority, Task::PRIORITIES %>
+          <%= f.input :deadline, as: :datetime, label: 'Deadline datetime' %> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit 'Save', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

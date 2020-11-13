@@ -1,0 +1,5 @@
+$('#project_<%= @project.id %>').fadeOut(500, function(){
+  $(this).remove();
+})
+
+$('div.alert').html('<%= flash[:notice] %>')

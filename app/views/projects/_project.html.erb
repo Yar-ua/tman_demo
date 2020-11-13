@@ -1,16 +1,51 @@
-<div class="card" style="width: 90%;">
+<!-- project card -->
+<div class="card" style="width: 90%;" id="project_<%= project.id %>" >
   <div class="card-body">
     <h5 class="card-title">
-      <%= project.name %>
-      <%= link_to 'Edit', edit_project_path(project) %>
-      <%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <div class="row">
+        <div class="col-md">
+          <%= project.name %>
+        </div>
+        <div class="col-sm-2">
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editProject_<%= project.id %>">
+            Edit project
+          </button>
+          <%= link_to 'Destroy', project, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </div>
+      </div>
     </h5>
     <ul class="list-group">
-      <%= link_to 'New Task', new_project_task_path(project_id: project.id) %>
-      <% project.tasks.each do |task| %>
-        <%= render 'tasks/task', task: task %>
-      <% end %>
+      <%= render 'tasks/form', project: project, task: Task.new %>
+      <div id="tasks">
+        <%= render partial: 'tasks/task', collection: project.tasks.order(priority: :desc) %>
+      </div>
     </ul>
   </div>
 </div>
 <br/>
+
+
+<!-- modal form for project ajax updating -->
+<div class="modal fade" id="editProject_<%= project.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= form_with model: project, method: :put, remote: true do |f| %>
+        <div class="modal-body">
+          <%= f.text_area :name, label: "Tape project name here", class: "form-control project_name" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit 'Save', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

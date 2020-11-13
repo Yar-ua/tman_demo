@@ -2,10 +2,12 @@
 
   <h1>Projects</h1>
 
-  <% @projects.each do |project| %>
-    <%= render 'projects/project', project: project %>
-  <% end %> 
+  <div id="form">
+    <%= render 'projects/form' %>
+  </div>
+
+  <div id="projects">
+     <%= render @projects %>
+  </div>
 
 <br>
-
-<%= link_to 'New Project', new_project_path %>

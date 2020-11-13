@@ -1,0 +1,6 @@
+console.log('down')
+$('#task_<%= @task.id %>').fadeOut(500, function(){
+  $(this).replaceWith('<%= escape_javascript(render @task) %>')
+})
+
+$('div.alert').html('<%= flash[:notice] %>')
