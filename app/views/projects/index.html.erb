@@ -2,9 +2,11 @@
 
   <h1>Projects</h1>
 
-  <div id="form">
-    <%= render 'projects/form' %>
-  </div>
+  <% if current_user %>
+    <div id="form">
+      <%= render 'projects/form' %>
+    </div>
+  <% end %>
 
   <div id="projects">
      <%= render @projects %>

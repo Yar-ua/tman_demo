@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!, except: :index
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -15,7 +16,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(project_params)
+    @project = current_user.projects.build(project_params)
 
     respond_to do |format|
       if @project.save
@@ -30,36 +31,44 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @project.update(project_params)
-        flash[:notice] = 'Project was successfully updated.'
-        format.html { redirect_to projects_path }
-        format.js
-        format.json { render :show, status: :ok, location: @project }
-      else
-        format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+    if is_owner
+      respond_to do |format|
+        if @project.update(project_params)
+          flash[:notice] = 'Project was successfully updated.'
+          format.html { redirect_to projects_path }
+          format.js
+          format.json { render :show, status: :ok, location: @project }
+        else
+          format.html { render :edit }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def destroy
-    @project.destroy
-    flash[:notice] = "Project was successfully destroyed."
-    respond_to do |format|
-      format.html { redirect_to projects_path }
-      format.js
-      format.json { head :no_content }
+    if is_owner
+      @project.destroy
+      flash[:notice] = "Project was successfully destroyed."
+      respond_to do |format|
+        format.html { redirect_to projects_path }
+        format.js
+        format.json { head :no_content }
+      end
     end
   end
 
   private
 
-    def set_project
-      @project = Project.find(params[:id])
-    end
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
-    def project_params
-      params.require(:project).permit(:name)
-    end
+  def project_params
+    params.require(:project).permit(:name)
+  end
+
+  def is_owner
+    return true if current_user.id == @project.user_id
+  end
 end
