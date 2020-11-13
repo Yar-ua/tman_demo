@@ -2,25 +2,12 @@
 
   <h1>Projects</h1>
 
-  <!-- %= link_to 'New Project', new_project_path %> -->
-  <a role="button" id="btn" class="btn btn-primary">New project</a>
-  <br/>
-
-  <div id="form" style="display: none">
+  <div id="form">
     <%= render 'projects/form' %>
   </div>
 
   <div id="projects">
-    <!-- % @projects.each do |project| %>
-      %= render 'projects/project', project: project %>
-     % end %> -->
      <%= render @projects %>
   </div>
 
 <br>
-
-<script>
-  $('#btn').click(function () {
-    $('#form').fadeToggle()
-  })
-</script>

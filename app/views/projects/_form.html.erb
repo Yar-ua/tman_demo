@@ -1,6 +1,28 @@
-<%= form_with model: Project.new, remote: true do |f| %>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProject">
+  Create project
+</button>
 
-  <%= f.text_area :name, label: "Tape project name here" %>
-  <%= f.submit %>
-  
-<% end %>
+<!-- Modal form -->
+<div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= form_with model: @project, remote: true do |f| %>
+        <div class="modal-body">
+          <%= f.text_area :name, label: "Tape project name here", class: "form-control project_name" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit 'Create', class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
