@@ -1,6 +1,6 @@
-<%= simple_form_for @project, local: true do |f| %>
+<%= form_with model: Project.new, remote: true do |f| %>
 
-  <%= f.input :name, label: "Tape project name here", error: "Project name must be present" %>
+  <%= f.text_area :name, label: "Tape project name here" %>
   <%= f.submit %>
   
 <% end %>
