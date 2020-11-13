@@ -14,9 +14,9 @@
         </button>
       </div>
 
-      <%= form_with model: @project, remote: true do |f| %>
+      <%= simple_form_for @project, remote: true do |f| %>
         <div class="modal-body">
-          <%= f.text_area :name, label: "Tape project name here", class: "form-control project_name" %>
+          <%= f.input :name, label: "Tape project name here", input_html: { minlength: 3 }, class: "form-control project_name" %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

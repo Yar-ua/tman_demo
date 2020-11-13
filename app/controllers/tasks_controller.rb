@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_project
-  before_action :set_task, except: [:index, :new]
+  before_action :set_task, except: [:index, :new, :create]
 
   def index
     @tasks = Task.all
@@ -18,7 +18,9 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to root_path, notice: 'Task was successfully created.' }
+        flash[:notice] = 'Task was successfully created.' 
+        format.html { redirect_to root_path }
+        format.js
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new }
@@ -30,7 +32,9 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to root_path, notice: 'Task was successfully updated.' }
+        flash[:notice] = 'Task was successfully updated.'
+        format.html { redirect_to root_path }
+        format.js
         format.json { render :show, status: :ok, location: @task }
       else
         format.html { render :edit }
@@ -41,8 +45,10 @@ class TasksController < ApplicationController
   
   def done
     if @task.done!
+      flash[:notice] = 'Task was successfully done.' 
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Task was successfully done.' }
+        format.html { redirect_to root_path }
+        format.js
         format.json { render :show, status: :ok, location: @task }
       end
     end
@@ -50,8 +56,10 @@ class TasksController < ApplicationController
 
   def inprocess
     if @task.in_process!
+      flash[:notice] = 'Task was switchet to "in process.'
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Task was switchet to "in process".' }
+        format.html { redirect_to root_path }
+        format.js
         format.json { render :show, status: :ok, location: @task }
       end
     end
@@ -59,16 +67,20 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
+    flash[:notice] = 'Task was successfully destroyed.' 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to root_path}
+      format.js
       format.json { head :no_content }
     end
   end
 
   def up
     if @task.up
+      flash[:notice] = 'Task priority was upped.'
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Task priority was upped.' }
+        format.html { redirect_to root_path }
+        format.js
         format.json { render :show, status: :ok, location: @task }
       end
     end
@@ -76,8 +88,10 @@ class TasksController < ApplicationController
 
   def down
     if @task.down
+      flash[:notice] = 'Task priority was lowed.'
       respond_to do |format|
-        format.html { redirect_to root_path, notice: 'Task was successfully lowed.' }
+        format.html { redirect_to root_path  }
+        format.js
         format.json { render :show, status: :ok, location: @task }
       end
     end
