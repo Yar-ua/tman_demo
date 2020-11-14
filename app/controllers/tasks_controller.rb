@@ -19,7 +19,6 @@ class TasksController < ApplicationController
       @task = @project.tasks.build(task_params)
       respond_to do |format|
         if @task.save
-          flash[:notice] = 'Task was successfully created.' 
           format.html { redirect_to root_path }
           format.js
           format.json { render :show, status: :created, location: @task }
@@ -35,7 +34,6 @@ class TasksController < ApplicationController
     if is_owner
       respond_to do |format|
         if @task.update(task_params)
-          flash[:notice] = 'Task was successfully updated.'
           format.html { redirect_to root_path }
           format.js
           format.json { render :show, status: :ok, location: @task }
@@ -49,26 +47,20 @@ class TasksController < ApplicationController
   
   def done
     if is_owner
-      if @task.done!
-        flash[:notice] = 'Task was successfully done.' 
-        respond_to do |format|
-          format.html { redirect_to root_path }
-          format.js
-          format.json { render :show, status: :ok, location: @task }
-        end
+      @task.done!
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js
       end
     end
   end
 
   def inprocess
     if is_owner
-      if @task.in_process!
-        flash[:notice] = 'Task was switchet to "in process.'
-        respond_to do |format|
-          format.html { redirect_to root_path }
-          format.js
-          format.json { render :show, status: :ok, location: @task }
-        end
+      @task.in_process!
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js
       end
     end
   end  
@@ -76,7 +68,6 @@ class TasksController < ApplicationController
   def destroy
     if is_owner
       @task.destroy
-      flash[:notice] = 'Task was successfully destroyed.' 
       respond_to do |format|
         format.html { redirect_to root_path}
         format.js
@@ -87,26 +78,20 @@ class TasksController < ApplicationController
 
   def up
     if is_owner
-      if @task.up
-        flash[:notice] = 'Task priority was upped.'
-        respond_to do |format|
-          format.html { redirect_to root_path }
-          format.js
-          format.json { render :show, status: :ok, location: @task }
-        end
+      @task.up
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js
       end
     end
   end
 
   def down
     if is_owner
-      if @task.down
-        flash[:notice] = 'Task priority was lowed.'
-        respond_to do |format|
-          format.html { redirect_to root_path  }
-          format.js
-          format.json { render :show, status: :ok, location: @task }
-        end
+      @task.down
+      respond_to do |format|
+        format.html { redirect_to root_path  }
+        format.js
       end
     end
   end
@@ -126,6 +111,6 @@ class TasksController < ApplicationController
   end
 
   def is_owner
-    return true #if current_user.id == @project.user_id
+    return true if current_user.id == @project.user_id
   end
 end

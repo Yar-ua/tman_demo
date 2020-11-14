@@ -1,3 +1,2 @@
 $('#newProject').modal('hide')
-$('#projects').append('<%= escape_javascript(render @project) %>')
-$('div.alert').html('<%= flash[:notice] %>')
+$('#projects').prepend('<%= escape_javascript(render @project) %>')

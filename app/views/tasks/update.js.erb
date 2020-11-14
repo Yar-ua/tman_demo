@@ -1,8 +1,8 @@
+console.log('create task')
+console.log('<%= @task.inspect %>')
+
 $('#editTask_<%= @task.id %>').modal('hide')
 
 $('#task_<%= @task.id %>').fadeOut(500, function(){
-  $(this).remove();
-  $('#tasks').prepend('<%= escape_javascript(render @task) %>')
+  $(this).replaceWith('<%= escape_javascript(render @task) %>')
 })
-
-$('div.alert').html('<%= flash[:notice] %>')

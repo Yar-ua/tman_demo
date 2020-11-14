@@ -1,8 +1,5 @@
 $('#editProject_<%= @project.id %>').modal('hide')
 
 $('#project_<%= @project.id %>').fadeOut(500, function(){
-  $(this).remove();
-  $('#projects').prepend('<%= escape_javascript(render @project) %>')
+  $(this).replaceWith('<%= escape_javascript(render @project) %>')
 })
-
-$('div.alert').html('<%= flash[:notice] %>')

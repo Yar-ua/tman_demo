@@ -4,7 +4,7 @@
     <h5 class="card-title">
       <div class="row">
         <div class="col-md">
-          <%= project.name %><%= project.inspect %>
+          <%= project.name %>
         </div>
         <div class="col-sm-2">
           <% if current_user and current_user.id == project.user_id %>
@@ -16,7 +16,7 @@
         </div>
       </div>
     </h5>
-    <ul class="list-group">
+    <ul class="list-group" id="tasksListForProject_<%= project.id %>">
       <% if current_user and current_user.id == project.user_id %>
         <%= render 'tasks/form', project: project, task: Task.new %>
       <% end %>
@@ -28,7 +28,6 @@
 </div>
 <br/>
 
-<% if current_user and current_user.id == project.user_id %>
   <!-- modal form for project ajax updating -->
   <div class="modal fade" id="editProject_<%= project.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -53,4 +52,3 @@
       </div>
     </div>
   </div>
-<% end %>

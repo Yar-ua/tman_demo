@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-md">
         <%= task.name %> || <%= task.status %> || <%= task.priority %> || <%= task.deadline %>
-        <%= task.inspect %>
       </div>
       <% if current_user and current_user.id == task.project.user_id %>
         <div class="col-sm-1">
@@ -27,13 +26,12 @@
 </li>
 
 
-<% if current_user and current_user.id == task.project.user_id %>
   <!-- Modal form -->
   <div class="modal fade" id="editTask_<%= task.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Task</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -53,4 +51,3 @@
       </div>
     </div>
   </div>
-<% end %>

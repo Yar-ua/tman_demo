@@ -1,3 +1,2 @@
-$('#newTask').modal('hide')
-$('#tasks').append('<%= escape_javascript(render @task) %>')
-$('div.alert').html('<%= flash[:notice] %>')
+$('#newTaskForProject_<%= @task.project_id %>').modal('hide')
+$('#tasksListForProject_<%= @task.project_id %>').append('<%= escape_javascript(render @task) %>')

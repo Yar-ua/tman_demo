@@ -17,10 +17,8 @@ class ProjectsController < ApplicationController
 
   def create
     @project = current_user.projects.build(project_params)
-
     respond_to do |format|
       if @project.save
-        flash[:notice] = "Project was successfully created."
         format.html { redirect_to projects_path  }
         format.js
       else
@@ -34,7 +32,6 @@ class ProjectsController < ApplicationController
     if is_owner
       respond_to do |format|
         if @project.update(project_params)
-          flash[:notice] = 'Project was successfully updated.'
           format.html { redirect_to projects_path }
           format.js
           format.json { render :show, status: :ok, location: @project }
@@ -49,7 +46,6 @@ class ProjectsController < ApplicationController
   def destroy
     if is_owner
       @project.destroy
-      flash[:notice] = "Project was successfully destroyed."
       respond_to do |format|
         format.html { redirect_to projects_path }
         format.js
