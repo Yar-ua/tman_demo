@@ -1,18 +1,7 @@
 class TasksController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user! #, except: :index
   before_action :set_project
   before_action :set_task, except: [:index, :new, :create]
-
-  def index
-    @tasks = Task.all
-  end
-
-  def new
-    @task = Task.new
-  end
-
-  def edit
-  end
 
   def create
     if is_owner
@@ -113,4 +102,5 @@ class TasksController < ApplicationController
   def is_owner
     return true if current_user.id == @project.user_id
   end
+
 end
