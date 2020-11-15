@@ -18,7 +18,7 @@
 
       <%= simple_form_for [project, task], url: project_tasks_path(project_id: project.id), method: :post, remote: true do |f| %>
         <div class="modal-body">
-          <%= f.input :name, label: 'Enter your task', maxlength: 255, required: true, class: "form-control" %>
+          <%= f.input :name, label: 'Enter your task', validate: { presence: true, uniqueness: false }, class: "form-control" %>
           <%= f.select :priority, Task::PRIORITIES %>
           <%= f.input :deadline, as: :datetime, label: 'Deadline datetime' %> 
         </div>
