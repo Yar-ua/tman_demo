@@ -20,3 +20,6 @@ require('jquery')
 //= require jquery_ujs
 //= require popper
 //= require bootstrap-sprockets
+
+require('@client-side-validations/client-side-validations')
+require('@client-side-validations/simple-form/dist/simple-form.bootstrap4')

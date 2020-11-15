@@ -1,7 +1,7 @@
 <!-- Button trigger modal -->
 <div>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskForProject_<%= project.id %>">
-    Create task
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskForProject_<%= project.id %>" title="New task">
+    <%= icon 'fas', 'plus-square' %>
   </button>
 </div>
 
@@ -18,7 +18,7 @@
 
       <%= simple_form_for [project, task], url: project_tasks_path(project_id: project.id), method: :post, remote: true do |f| %>
         <div class="modal-body">
-          <%= f.input :name, label: 'Enter your task', input_html: { minlength: 1 }, error: "Project name must be present" %>
+          <%= f.input :name, label: 'Enter your task', validate: { presence: true, uniqueness: false }, class: "form-control" %>
           <%= f.select :priority, Task::PRIORITIES %>
           <%= f.input :deadline, as: :datetime, label: 'Deadline datetime' %> 
         </div>

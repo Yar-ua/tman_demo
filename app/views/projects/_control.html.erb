@@ -1,0 +1,12 @@
+<div class="col-sm-2">
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <% if current_user and current_user.id == project.user_id %>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editProject_<%= project.id %>"  title="Edit project">
+      <%= icon('fas', 'edit') %>
+    </button>
+      <%= link_to project, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, title: "Delete project", class: "btn btn-danger" do %>
+        <%= icon('fas', 'calendar-times') %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,18 +1,11 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: :index
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:update, :destroy]
 
   def index
-    @projects = Project.all
+    @projects = Project.all.order(updated_at: :desc)
     @project = Project.new
     @task = Task.new
-  end
-
-  def new
-    @project = Project.new
-  end
-
-  def edit
   end
 
   def create
@@ -34,7 +27,6 @@ class ProjectsController < ApplicationController
         if @project.update(project_params)
           format.html { redirect_to projects_path }
           format.js
-          format.json { render :show, status: :ok, location: @project }
         else
           format.html { render :edit }
           format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -49,7 +41,6 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to projects_path }
         format.js
-        format.json { head :no_content }
       end
     end
   end
@@ -65,6 +56,12 @@ class ProjectsController < ApplicationController
   end
 
   def is_owner
-    return true if current_user.id == @project.user_id
+    if current_user.id == @project.user_id
+      return true
+    else
+      respond_to do |format|
+        format.js { render status: 442, json: {message: "Forbidden - not owner"} }
+      end
+    end
   end
 end

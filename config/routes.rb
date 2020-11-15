@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   
   root to: 'projects#index'
   
-  resources :projects, except: :show do
-    resources :tasks, except: :show
+  resources :projects, except: [:new, :show, :edit] do
+    resources :tasks, except: [:index, :new, :show, :edit]
   end
 
   put '/projects/:project_id/tasks/:id/done', to: 'tasks#done', as: 'project_task_done'

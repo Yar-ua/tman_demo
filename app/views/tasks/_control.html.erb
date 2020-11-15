@@ -1,0 +1,43 @@
+<% if current_user and current_user.id == task.project.user_id %>
+  <div class="col-sm-1">
+    <% if task.priority < 5 %>
+      <%= link_to project_task_up_path(project_id: task.project.id, id: task.id), 
+                          method: :put, remote: true, title: "Increase priority", class: "btn btn-info btn-sm" do %>
+        <%= icon('fa', 'chevron-up') %>
+      <% end %>
+    <% end %>
+    <% if task.priority > 1 %>
+      <%= link_to project_task_down_path(project_id: task.project.id, id: task.id), 
+                          method: :put, remote: true, title: "Decline priority", class: "btn btn-info btn-sm" do %>
+        <%= icon('fa', 'chevron-down') %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-sm-1">
+    <% if task.in_process? %>
+      <%= link_to project_task_done_path(project_id: task.project.id, id: task.id), method: :put, remote: true,
+                           data: { confirm: 'Mark this task as done?' }, title: "Mark as done", class: "btn btn-info btn-sm" do %>
+        <%= icon('fas', 'couch') %>
+      <% end %>
+    <% else %>
+      <%= link_to project_task_inprocess_path(project_id: task.project.id, id: task.id), method: :put, remote: true,
+                           data: { confirm: 'Mark this task as in_process?', title: "Mark as undone", class: "btn btn-success btn-lg" } do %>
+        <%= icon('fas', 'check-double') %>
+      <% end %>
+    <% end %>
+</div>
+  <div class="col-sm-2">
+    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editTask_<%= task.id %>" title="Edit task">
+      Edit
+    </button>
+      <%= link_to project_task_path(project_id: task.project.id, id: task.id), method: :delete, remote: true,
+                      data: { confirm: 'Are you sure?' }, title: "Delete project", class: "btn btn-danger btn-sm" do %>
+        <%= icon('fas', 'trash-alt') %>
+      <% end %>
+    </div>
+  <% end %>
+
+
+
+
+

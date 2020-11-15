@@ -4,6 +4,7 @@ class Task < ApplicationRecord
 
   validates :name, presence: true
   validates :priority, presence: true, numericality: { only_integer: true }
+  validates :status, presence: true
 
   PRIORITIES = [
     ['Low', 1],
