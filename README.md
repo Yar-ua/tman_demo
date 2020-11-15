@@ -59,5 +59,86 @@ Given tables:
 Technical requirements
 
 - get all statuses, not repeating, alphabetically ordered
-
+```sql
 SELECT DISTINCT status FROM tasks ORDER BY status ASC
+```
+
+- get the count of all tasks in each project, order by tasks count
+descending
+```sql
+SELECT project_id, COUNT(id) count
+FROM tasks
+GROUP BY project_id
+ORDER BY count DESC
+```
+
+- get the count of all tasks in each project, order by projects
+names
+```sql
+SELECT p.name, COUNT(t.id) count_of_tasks
+FROM projects p
+INNER JOIN tasks t ON p.id = t.project_id
+GROUP BY t.project_id
+ORDER BY p.name ASC
+```
+
+- get the tasks for all projects having the name beginning with
+"N" letter
+```sql
+SELECT *
+FROM tasks
+WHERE name LIKE 'N%'
+```
+- get the list of all projects containing the 'a' letter in the middle of
+the name, and show the tasks count near each project. Mention
+that there can exist projects without tasks and tasks with
+project_id = NULL
+```sql
+SELECT p.*, COUNT(t.id) count_of_tasks
+FROM projects p
+INNER JOIN tasks t ON p.id = t.project_id
+WHERE t.name LIKE '%a%'
+GROUP BY t.project_id
+```
+- get the list of tasks with duplicate names. Order alphabetically
+```sql
+SELECT * 
+FROM tasks 
+INNER JOIN(
+    SELECT name  
+    FROM tasks  
+    GROUP BY name  
+    HAVING COUNT(name) > 1  
+) temp ON tasks.name = temp.name
+ORDER BY tasks.name ASC
+```
+- get list of tasks having several exact matches of both name and
+status, from the project 'Garage'. Order by matches count
+```sql
+SELECT t.name, t.status, COUNT(t.name) c
+FROM tasks t
+INNER JOIN projects p ON t.project_id = p.id
+INNER JOIN (
+  SELECT CONCAT(name, status) ns
+    FROM tasks
+    GROUP BY ns
+    HAVING COUNT('ns') > 1
+) temp ON CONCAT(t.name, t.status) = temp.ns
+WHERE p.name = 'Garage'
+GROUP BY t.name, t.status
+ORDER BY c ASC
+```
+- get the list of project names having more than 10 tasks in status
+'completed'. Order by project_id
+```sql
+SELECT p.name
+FROM projects p
+INNER JOIN (
+  SELECT project_id
+    FROM tasks
+    GROUP BY project_id
+    WHERE status = 'completed'
+    HAVING COUNT('id') > 10
+) t ON t.project_id = p.id
+ORDER BY p.id ASC
+```
