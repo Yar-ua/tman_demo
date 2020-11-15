@@ -55,6 +55,8 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "not found" }, status: :not_found
   end
 
   def is_owner
