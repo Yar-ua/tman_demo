@@ -32,9 +32,9 @@
           </button>
         </div>
 
-        <%= form_with model: project, method: :put, remote: true do |f| %>
+        <%= form_for project, method: :put, remote: true do |f| %>
           <div class="modal-body">
-            <%= f.text_area :name, label: "Tape project name here", class: "form-control project_name" %>
+            <%= f.text_area :name, label: "Tape project name here", maxlength: 255, required: true, class: "form-control project_name" %>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
