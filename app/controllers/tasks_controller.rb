@@ -10,7 +10,6 @@ class TasksController < ApplicationController
         if @task.save
           format.html { redirect_to root_path }
           format.js
-          format.json { render :show, status: :created, location: @task }
         else
           format.html { render :new }
           format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -25,7 +24,6 @@ class TasksController < ApplicationController
         if @task.update(task_params)
           format.html { redirect_to root_path }
           format.js
-          format.json { render :show, status: :ok, location: @task }
         else
           format.html { render :edit }
           format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -60,7 +58,6 @@ class TasksController < ApplicationController
       respond_to do |format|
         format.html { redirect_to root_path}
         format.js
-        format.json { head :no_content }
       end
     end
   end
@@ -100,7 +97,13 @@ class TasksController < ApplicationController
   end
 
   def is_owner
-    return true if current_user.id == @project.user_id
+    if current_user.id == @project.user_id
+      return true
+    else
+      respond_to do |format|
+        format.js { render status: 442, json: {message: "Forbidden - not owner"} }
+      end
+    end
   end
 
 end

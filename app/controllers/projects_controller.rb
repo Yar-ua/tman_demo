@@ -27,7 +27,6 @@ class ProjectsController < ApplicationController
         if @project.update(project_params)
           format.html { redirect_to projects_path }
           format.js
-          format.json { render :show, status: :ok, location: @project }
         else
           format.html { render :edit }
           format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -42,7 +41,6 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to projects_path }
         format.js
-        format.json { head :no_content }
       end
     end
   end
@@ -55,11 +53,15 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: "not found" }, status: :not_found
   end
 
   def is_owner
-    return true if current_user.id == @project.user_id
+    if current_user.id == @project.user_id
+      return true
+    else
+      respond_to do |format|
+        format.js { render status: 442, json: {message: "Forbidden - not owner"} }
+      end
+    end
   end
 end
