@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:update, :destroy]
 
   def index
-    @projects = Project.all
+    @projects = Project.all.order(updated_at: :desc)
     @project = Project.new
     @task = Task.new
   end
