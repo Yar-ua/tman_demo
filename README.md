@@ -7,7 +7,7 @@ Application deployed on Heroku, you can find it by next link:
 https://tman-demo.herokuapp.com/
 
 Deployed application already filled by fixtures and created some users.
-You can crete new user or use pre-created user with login: '@test.com' and password: '111111'
+You can crete new user or use pre-created user with login: '1@test.com' and password: '111111'
 
 ## Technologies stack
 
